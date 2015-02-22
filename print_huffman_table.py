@@ -1,8 +1,18 @@
 import sys
-import subprocess
 
 
-def generate_codes(lengths):
+def print_codes(lengths):
+    """
+    Print a Huffman tree given pairs of characters and Huffman lengths.
+    For instance:
+    a, 3
+    b, 3
+    c, 4
+    will output
+    100
+    101
+    1100
+    """
     last_code = None
     last_length = None
     for char, length in lengths:
@@ -22,29 +32,14 @@ def generate_codes(lengths):
 
 
 def read_lengths(infgen_output):
-    lines = []
-    for line in infgen_output:
-        if 'litlen' not in line:
-            continue
-        asciicode, length = line.strip().split()[1:]
-        character = int(asciicode)
-        if character >= 256:
-            continue
-        character = chr(character)
-        length = int(length)
-        lines.append((character, length))
-    return lines
+    lines = (l for l in infgen_output if 'litlen' in l)
+    lines = (l.split() for l in lines)
+    lines = ((int(code), int(length)) for _, code, length in lines)
+    # Filter out anything where the code isn't ascii
+    lines = ((chr(code), length) for code, length in lines if code < 256)
+    return list(lines)
 
 if __name__ == "__main__":
-    if len(sys.argv) <= 1:
-        print "You need a filename!"
-        sys.exit(0)
-    filename = sys.argv[1]
-    try:
-        infgen_output = subprocess.check_output(['./infgen', filename]).split("\n")
-    except OSError:
-        print "./infgen not found. Maybe try running `make`?"
-        sys.exit(0)
-    lengths = read_lengths(infgen_output)
+    lengths = read_lengths(sys.stdin)
     lengths.sort(key=lambda x: x[1])
-    generate_codes(lengths)
+    print_codes(lengths)

@@ -12,6 +12,9 @@ def generate_codes(lengths):
             if last_length == length:
                 code = last_code + 1
             else:
+                # Figure out what the first code for each bit-length would
+                # be. This is one more than the last code of the previous
+                # bit length, left-shifted once.
                 code = (last_code + 1) << 1
         last_code = code
         last_length = length

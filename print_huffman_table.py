@@ -4,7 +4,7 @@ import sys
 def print_codes(lengths):
 
     # MAX_BITS = 15 -> maximum number of bits for code lengths
-    # bl_count stores how many codes are found for each symbol ASCII code
+    # bl_count stores how many codes are found for each symbol  code
     min_length = 15 
     bl_count = [0] * 16 
     for lines in lengths:
@@ -30,7 +30,7 @@ def print_codes(lengths):
 
 
 
-    # There are 2 sorting ways: by Symbol ASCII CODE or by somb code length.
+    # There are 2 sorting ways: by Symbol ASCII CODE or by some code length.
     # Only one method can be activated in the code.
 
     '''

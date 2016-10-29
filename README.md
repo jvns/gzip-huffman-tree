@@ -1,7 +1,7 @@
 # huffman fun
 
 This hacky Python script prints out the Huffman tree for the first block
-in a gzip file.
+in a gzip file. it may or may not, no guarantees.
 
 It uses a program called `infgen` available from
 http://zlib.net/infgen.c.gz. The Makefile here will download and compile
